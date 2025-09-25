@@ -1,0 +1,34 @@
+{% extends 'core_ofertas/base.html' %}
+
+{% block title %}Confirmar Exclusão{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h3 class="card-title">Confirmar Exclusão</h3>
+            </div>
+            <div class="card-body">
+                <p>Tem certeza que deseja excluir a oferta <strong>"{{ oferta.titulo }}"</strong>?</p>
+                <p>Esta ação não pode ser desfeita.</p>
+                
+                {% if oferta.foto %}
+                <div class="mb-3">
+                    <img src="{{ oferta.foto.url }}" alt="{{ oferta.titulo }}" 
+                         style="max-width: 150px; max-height: 150px;" class="img-thumbnail">
+                </div>
+                {% endif %}
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'minhas_ofertas' %}" class="btn btn-secondary me-md-2">Cancelar</a>
+                        <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

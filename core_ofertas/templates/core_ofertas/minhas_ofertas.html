@@ -1,0 +1,56 @@
+{% extends 'core_ofertas/base.html' %}
+
+{% block title %}Minhas Ofertas{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Minhas Ofertas</h2>
+    <a href="{% url 'criar_oferta' %}" class="btn btn-primary">
+        + Nova Oferta
+    </a>
+</div>
+
+{% if ofertas %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Quantidade</th>
+                    <th>Expira em</th>
+                    <th>Status</th>
+                    <th>Criada em</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for oferta in ofertas %}
+                <tr>
+                    <td>{{ oferta.titulo }}</td>
+                    <td>{{ oferta.quantidade }} {{ oferta.get_unidade_display }}</td>
+                    <td>{{ oferta.data_expiracao|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <span class="badge bg-{% if oferta.status == 'disponivel' %}success{% elif oferta.status == 'reservado' %}warning{% else %}danger{% endif %}">
+                            {{ oferta.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ oferta.data_criacao|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <a href="{% url 'editar_oferta' oferta.pk %}" class="btn btn-outline-primary">Editar</a>
+                            <a href="{% url 'excluir_oferta' oferta.pk %}" class="btn btn-outline-danger">Excluir</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="text-center py-5">
+        <h4 class="text-muted">Você ainda não tem ofertas cadastradas</h4>
+        <p class="text-muted">Clique em "Nova Oferta" para começar</p>
+        <a href="{% url 'criar_oferta' %}" class="btn btn-primary mt-3">Criar Primeira Oferta</a>
+    </div>
+{% endif %}
+{% endblock %}
