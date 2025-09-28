@@ -5,11 +5,8 @@ from .models import Oferta
 from .forms import OfertaForm
 
 def index(request):
-    """Página inicial - redireciona para minhas ofertas se logado, ou para admin"""
-    if request.user.is_authenticated:
-        return redirect('core_ofertas:minhas_ofertas')
-    else:
-        return redirect('admin:login')
+    """Página inicial - renderiza a home index.html"""
+    return render(request, 'core/index.html')
 
 
 @login_required
